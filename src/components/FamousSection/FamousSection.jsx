@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './FamousSection.css';
+import axios from 'axios'
 
 function FamousSection() {
   let [famousPersonName, setPersonName] = useState('');
@@ -10,7 +11,17 @@ function FamousSection() {
 
   const fetchPeople = () => {
     // TODO: fetch the list of people from the server
+    axios.get('/people')
+    .then((response) => {
+      setPeopleArray(response.data)
+    }).catch((error) => {
+      console.log('Error GET /people', error)
+    })
   }
+
+  useEffect(() => {
+    fetchPeople()
+  }, [])
 
   const addPerson = (evt) => {
     evt.preventDefault();
@@ -36,7 +47,12 @@ function FamousSection() {
           {famousPersonName} is famous for "{famousPersonRole}".
         </p>
         <ul>
-          {/* TODO: Render the list of famous people */}
+          {/* TODO: Render the list of famous people */
+          famousPeopleArray.map(people => (
+            <li key={people.id}>
+              {people.name} is famous for "{people.role}".
+            </li>
+          ))}
         </ul>
       </section>
     );
