@@ -31,7 +31,12 @@ function FamousSection() {
 
     // HINT: the server is expecting a person object 
     //       with a `name` and a `role` property
-  
+  axios.post('/people', {name:famousPersonName, role:famousPersonRole})
+  .then((response) => {
+    fetchPeople()
+  }).catch((error) => {
+    console.log('Error POST /people', error)
+  })
   }
 
     return (
